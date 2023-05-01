@@ -37,5 +37,28 @@
       </div>
     </div>
   </div>
+  <script>
+
+const apiKey = "c56be83a50cc1746c136cf101de81664"; 
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=Boston";
+
+async function checkWeather(){
+      const response = await fetch(apiUrl + `&appid=${apiKey}`);
+      var data = await response.json()
+
+      document.querySelector(".city").innerHTML = data.name
+      document.querySelector(".temp").innerHTML = fahrenheit = Math.trunc((data.main.temp * 9/5) + 32)
+      document.querySelector(".humidity").innerHTML = data.main.humidity
+      document.querySelector(".wind").innerHTML = data.wind.speed
+
+      console.log(data)
+}
+
+checkWeather();
+
+
+
+
+  </script>
 </body>
 </html>
