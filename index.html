@@ -17,21 +17,21 @@
     </div>
     <div class="weather">
       <img src="./images/clear.png" class = "weather-icon">
-      <h1 class="temp">66°F</h1>
-      <h2 class="city">New York City</h2>
+      <h1 class="temp">63 °F</h1>
+      <h2 class="city">Los Angeles</h2>
 
       <div class="details">
         <div class="col">
           <img src="/images/humidity.png" alt="">
           <div>
-            <p class="humidity">54%</p>
+            <p class="humidity">61 %</p>
             <p>Humidity</p>
         </div>
       </div>
       <div class="col">
         <img src="/images/wind.png" alt="">
         <div>
-          <p class="wind">9 mph</p>
+          <p class="wind">8 mph</p>
           <p>Wind Speed</p>
         </div>
       </div>
@@ -40,21 +40,55 @@
   <script>
 
 const apiKey = "c56be83a50cc1746c136cf101de81664"; 
-const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=Boston";
+const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
 
-async function checkWeather(){
-      const response = await fetch(apiUrl + `&appid=${apiKey}`);
+const searchBox = document.querySelector(".searchBar input")
+const searchBtn = document.querySelector(".searchBar button")
+const weatherIcon = document.querySelector(".weather-icon")
+
+async function checkWeather(city){
+      const response = await fetch(apiUrl + city +`&appid=${apiKey}`);
       var data = await response.json()
 
       document.querySelector(".city").innerHTML = data.name
-      document.querySelector(".temp").innerHTML = fahrenheit = Math.trunc((data.main.temp * 9/5) + 32)
-      document.querySelector(".humidity").innerHTML = data.main.humidity
-      document.querySelector(".wind").innerHTML = data.wind.speed
+      document.querySelector(".temp").innerHTML = fahrenheit = Math.trunc((data.main.temp * 9/5) + 32) + "°F"
+      document.querySelector(".humidity").innerHTML = data.main.humidity + "%"
+      document.querySelector(".wind").innerHTML = data.wind.speed + " mph"
+  
+
+      if(data.weather[0].main == "Clouds"){
+
+        weatherIcon.src = './images/clouds.png'
+      }
+      else if(data.weather[0].main == "Rain"){
+        weatherIcon.src = "./images/rain.png"
+
+      }
+      else if(data.weather[0].main =="Clear"){
+        weatherIcon.src = "./images/clear.png"
+      }
+      else if(data.weather[0].main =="Drizzle"){
+        weatherIcon.src = "./images/drizzle.png"
+      }
+      else if(data.weather[0].main =="Snow"){
+        weatherIcon.src = "./images/snow.png"
+      }
+      else if(data.weather[0].main =="Mistr"){
+        weatherIcon.src = "./images/mist.png"
+      }
+
+
+
 
       console.log(data)
 }
 
-checkWeather();
+searchBtn.addEventListener('click', ()=>{
+
+  checkWeather(searchBox.value);
+
+})
+
 
 
 
